@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 import axios from "axios";
+import AlbumDetail from "./AlbumDetail";
 
 class AlbumListComponent extends Component {
   constructor() {
@@ -8,6 +9,12 @@ class AlbumListComponent extends Component {
     this.state = {
       albums: []
     };
+    this.renderAlbums = this.renderAlbums.bind(this);
+  }
+  renderAlbums() {
+    return this.state.albums.map(album => (
+      <AlbumDetail key={album.title} album={album} />
+    ));
   }
   componentDidMount() {
     axios
@@ -15,11 +22,7 @@ class AlbumListComponent extends Component {
       .then(response => this.setState({ albums: response.data }));
   }
   render() {
-    return (
-      <View>
-        <Text>Album List!!</Text>
-      </View>
-    );
+    return <View>{this.renderAlbums()}</View>;
   }
 }
 
